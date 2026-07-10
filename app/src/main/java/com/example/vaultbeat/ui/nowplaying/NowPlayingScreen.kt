@@ -120,32 +120,26 @@ fun NowPlayingScreen(
             Row(modifier = Modifier.weight(3f).fillMaxWidth().padding(18.dp)) {
                 // Integrated vertical menu (compact, translucent, font-weight to indicate selection)
                 Box(modifier = Modifier.weight(2.2f).fillMaxHeight().widthIn(min = 160.dp).padding(end = 8.dp)) {
-                    Box(modifier = Modifier.fillMaxSize().padding(12.dp)) {
-                        Column(modifier = Modifier.align(Alignment.TopStart)) {
-                            Text("VAULTBEAT", style = MaterialTheme.typography.labelMedium, color = MaterialTheme.colorScheme.onSurface)
-                            Spacer(modifier = Modifier.height(12.dp))
-                            val items = listOf("MUSIC", "PODCASTS", "ARTISTS", "ALBUMS", "NOW_PLAYING")
-                            items.forEach { item ->
-                                val selectedItem = menu.value == item
-                                Text(
-                                    text = item.replace("_", " "),
-                                    modifier = Modifier
-                                        .clickable { menu.value = item }
-                                        .padding(vertical = 6.dp),
-                                    style = TextStyle(
-                                        fontSize = 14.sp,
-                                        color = if (selectedItem) MaterialTheme.colorScheme.onSurface else Color(0xFFBFC3C6),
-                                        fontWeight = if (selectedItem) FontWeight.SemiBold else FontWeight.Normal
-                                    )
+                    Column(modifier = Modifier.fillMaxSize().padding(12.dp), verticalArrangement = Arrangement.Top) {
+                        Text("VAULTBEAT", style = MaterialTheme.typography.labelMedium, color = MaterialTheme.colorScheme.onSurface)
+                        Spacer(modifier = Modifier.height(12.dp))
+                        val items = listOf("MUSIC", "PODCASTS", "ARTISTS", "ALBUMS", "NOW_PLAYING")
+                        items.forEach { item ->
+                            val selectedItem = menu.value == item
+                            Text(
+                                text = item.replace("_", " "),
+                                modifier = Modifier
+                                    .clickable { menu.value = item }
+                                    .padding(vertical = 6.dp),
+                                style = TextStyle(
+                                    fontSize = 14.sp,
+                                    color = if (selectedItem) MaterialTheme.colorScheme.onSurface else Color(0xFFBFC3C6),
+                                    fontWeight = if (selectedItem) FontWeight.SemiBold else FontWeight.Normal
                                 )
-                            }
+                            )
                         }
-                        Row(
-                            modifier = Modifier
-                                .align(Alignment.TopStart)
-                                .offset(y = 180.dp),
-                            verticalAlignment = Alignment.CenterVertically
-                        ) {
+                        Spacer(modifier = Modifier.height(240.dp))
+                        Row(verticalAlignment = Alignment.CenterVertically) {
                             Text(time, style = TextStyle(fontSize = 12.sp, color = MaterialTheme.colorScheme.onSurfaceVariant))
                             Spacer(modifier = Modifier.width(10.dp))
                             Text("58% Batt", style = TextStyle(fontSize = 12.sp, color = MaterialTheme.colorScheme.onSurfaceVariant))
