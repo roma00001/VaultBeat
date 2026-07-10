@@ -83,7 +83,8 @@ fun NowPlayingScreen(
  
     val position = ui.playerState.positionMs.coerceAtLeast(0L)
     val duration = ui.playerState.durationMs.coerceAtLeast(0L)
-     
+    val time = java.time.LocalTime.now().format(java.time.format.DateTimeFormatter.ofPattern("HH:mm"))
+    
     // menu state
     val menu = remember { androidx.compose.runtime.mutableStateOf("NOW_PLAYING") }
     val selectedIndex = remember { androidx.compose.runtime.mutableStateOf<Int?>(null) }
@@ -116,24 +117,12 @@ fun NowPlayingScreen(
                 }
 
         Column(modifier = Modifier.fillMaxSize()) {
-            // Top system info (time + battery/wifi) styled to match the UI
-            Row(modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 18.dp, vertical = 8.dp), horizontalArrangement = Arrangement.SpaceBetween) {
-                val time = java.time.LocalTime.now().format(java.time.format.DateTimeFormatter.ofPattern("HH:mm"))
-                Text(time, style = TextStyle(fontSize = 12.sp, color = MaterialTheme.colorScheme.onSurfaceVariant))
-                Row(verticalAlignment = Alignment.CenterVertically) {
-                    Text("58% Batt", style = TextStyle(fontSize = 12.sp, color = MaterialTheme.colorScheme.onSurfaceVariant))
-                    Spacer(modifier = Modifier.width(8.dp))
-                    Text("📶", style = TextStyle(fontSize = 12.sp, color = MaterialTheme.colorScheme.onSurfaceVariant))
-                }
-            }
             Row(modifier = Modifier.weight(3f).fillMaxWidth().padding(18.dp)) {
                 // Integrated vertical menu (compact, translucent, font-weight to indicate selection)
                 Box(modifier = Modifier.weight(2.2f).fillMaxHeight().widthIn(min = 160.dp).padding(end = 8.dp)) {
                     Column(
                         modifier = Modifier.fillMaxSize().padding(12.dp),
-                        verticalArrangement = Arrangement.Center
+                        verticalArrangement = Arrangement.Top
                     ) {
                         Text("VAULTBEAT", style = MaterialTheme.typography.labelMedium, color = MaterialTheme.colorScheme.onSurface)
                         Spacer(modifier = Modifier.height(12.dp))
@@ -151,6 +140,14 @@ fun NowPlayingScreen(
                                     fontWeight = if (selectedItem) FontWeight.SemiBold else FontWeight.Normal
                                 )
                             )
+                        }
+                        Spacer(modifier = Modifier.height(92.dp))
+                        Row(verticalAlignment = Alignment.CenterVertically) {
+                            Text(time, style = TextStyle(fontSize = 12.sp, color = MaterialTheme.colorScheme.onSurfaceVariant))
+                            Spacer(modifier = Modifier.width(10.dp))
+                            Text("58% Batt", style = TextStyle(fontSize = 12.sp, color = MaterialTheme.colorScheme.onSurfaceVariant))
+                            Spacer(modifier = Modifier.width(8.dp))
+                            Text("📶", style = TextStyle(fontSize = 12.sp, color = MaterialTheme.colorScheme.onSurfaceVariant))
                         }
                     }
                 }
@@ -277,44 +274,92 @@ fun NowPlayingScreen(
                                     value = (position.toFloat() / duration.toFloat()).coerceIn(0f, 1f),
                                     onValueChange = { frac -> viewModel.seekTo((frac * duration).toLong()) },
                                     modifier = Modifier.weight(1f),
-                                    colors = SliderDefaults.colors(thumbColor = MaterialTheme.colorScheme.onSurface, activeTrackColor = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.18f))
+                                    colors = SliderDefaults.colors(
+                                        thumbColor = MaterialTheme.colorScheme.onSurface,
+                                        activeTrackColor = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.20f),
+                                        inactiveTrackColor = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.08f)
+                                    )
                                 )
                                 Spacer(modifier = Modifier.width(10.dp))
                                 Text(formatDuration(duration), style = TextStyle(color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.9f), fontSize = 12.sp))
                             }
                         }
 
-                        Box(modifier = Modifier.fillMaxWidth(), contentAlignment = Alignment.Center) {
-                            // outer ring
-                            Box(modifier = Modifier.size(220.dp).clip(CircleShape).background(MaterialTheme.colorScheme.surfaceVariant), contentAlignment = Alignment.Center) {
-                                // inner plate
-                                Box(modifier = Modifier.size(200.dp).clip(CircleShape).background(MaterialTheme.colorScheme.surface), contentAlignment = Alignment.Center) {
-                                    // central column: MENU label and play/pause
-                                    Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                                        Text("MENU", style = TextStyle(fontSize = 12.sp, color = MaterialTheme.colorScheme.onSurfaceVariant, fontWeight = FontWeight.Medium))
-                                        Spacer(modifier = Modifier.height(8.dp))
-                                        Box(modifier = Modifier.size(88.dp).clip(CircleShape).background(MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.08f)), contentAlignment = Alignment.Center) {
-                                            IconButton(onClick = { viewModel.togglePlayPause() }) {
-                                                Text(if (ui.playerState.isPlaying) "‖" else "▶", style = TextStyle(color = MaterialTheme.colorScheme.onSurface))
-                                            }
-                                        }
-                                    }
-
-                                    // directional labels / hit targets
+                        Box(modifier = Modifier.fillMaxWidth().height(230.dp), contentAlignment = Alignment.Center) {
+                            Box(
+                                modifier = Modifier
+                                    .size(230.dp)
+                                    .clip(CircleShape)
+                                    .background(MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.30f)),
+                                contentAlignment = Alignment.Center
+                            ) {
+                                Box(
+                                    modifier = Modifier
+                                        .size(190.dp)
+                                        .clip(CircleShape)
+                                        .background(MaterialTheme.colorScheme.surface.copy(alpha = 0.88f)),
+                                    contentAlignment = Alignment.Center
+                                ) {
                                     Box(modifier = Modifier.fillMaxSize()) {
-                                        // Previous (left)
-                                        Box(modifier = Modifier.align(Alignment.CenterStart).padding(start = 12.dp).size(48.dp).clip(CircleShape).clickable { viewModel.previous() }, contentAlignment = Alignment.Center) {
-                                            Text("⏮", color = MaterialTheme.colorScheme.onSurface)
+                                        // Top label
+                                        Text(
+                                            "MENU",
+                                            modifier = Modifier
+                                                .align(Alignment.TopCenter)
+                                                .offset(y = 16.dp),
+                                            style = TextStyle(fontSize = 12.sp, color = MaterialTheme.colorScheme.onSurfaceVariant, fontWeight = FontWeight.Medium)
+                                        )
+
+                                        // Previous
+                                        Box(
+                                            modifier = Modifier
+                                                .align(Alignment.CenterStart)
+                                                .offset(x = 12.dp)
+                                                .size(50.dp)
+                                                .clip(CircleShape)
+                                                .clickable { viewModel.previous() },
+                                            contentAlignment = Alignment.Center
+                                        ) {
+                                            Text("⏮", style = TextStyle(fontSize = 18.sp, color = MaterialTheme.colorScheme.onSurface))
                                         }
 
-                                        // Next (right)
-                                        Box(modifier = Modifier.align(Alignment.CenterEnd).padding(end = 12.dp).size(48.dp).clip(CircleShape).clickable { viewModel.next() }, contentAlignment = Alignment.Center) {
-                                            Text("⏭", color = MaterialTheme.colorScheme.onSurface)
+                                        // Next
+                                        Box(
+                                            modifier = Modifier
+                                                .align(Alignment.CenterEnd)
+                                                .offset(x = (-12).dp)
+                                                .size(50.dp)
+                                                .clip(CircleShape)
+                                                .clickable { viewModel.next() },
+                                            contentAlignment = Alignment.Center
+                                        ) {
+                                            Text("⏭", style = TextStyle(fontSize = 18.sp, color = MaterialTheme.colorScheme.onSurface))
                                         }
 
-                                        // Play/Pause (bottom)
-                                        Box(modifier = Modifier.align(Alignment.BottomCenter).padding(bottom = 12.dp).size(48.dp).clip(CircleShape).clickable { viewModel.togglePlayPause() }, contentAlignment = Alignment.Center) {
-                                            Text("⏯", color = MaterialTheme.colorScheme.onSurface)
+                                        // Play/Pause
+                                        Box(
+                                            modifier = Modifier
+                                                .align(Alignment.BottomCenter)
+                                                .offset(y = (-16).dp)
+                                                .size(50.dp)
+                                                .clip(CircleShape)
+                                                .clickable { viewModel.togglePlayPause() },
+                                            contentAlignment = Alignment.Center
+                                        ) {
+                                            Text("⏯", style = TextStyle(fontSize = 18.sp, color = MaterialTheme.colorScheme.onSurface))
+                                        }
+
+                                        // Central button
+                                        Box(
+                                            modifier = Modifier
+                                                .align(Alignment.Center)
+                                                .size(92.dp)
+                                                .clip(CircleShape)
+                                                .background(MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.12f))
+                                                .clickable { viewModel.togglePlayPause() },
+                                            contentAlignment = Alignment.Center
+                                        ) {
+                                            Text(if (ui.playerState.isPlaying) "‖" else "▶", style = TextStyle(fontSize = 20.sp, color = MaterialTheme.colorScheme.onSurface))
                                         }
                                     }
                                 }
