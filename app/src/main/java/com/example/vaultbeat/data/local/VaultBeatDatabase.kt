@@ -31,9 +31,16 @@ data class PlayHistoryEntity(@PrimaryKey val songId: Long, val playedAt: Long = 
 
 @Dao
 interface PlaylistDao {
-    @Query("SELECT * FROM playlists ORDER BY name COLLATE NOCASE") fun observeAll(): Flow<List<PlaylistEntity>>
+    @Query("SELECT * FROM playlists ORDER BY createdAt ASC") fun observeAll(): Flow<List<PlaylistEntity>>
     @Insert suspend fun insert(playlist: PlaylistEntity): Long
     @Query("DELETE FROM playlists WHERE id = :playlistId") suspend fun delete(playlistId: Long)
+    @Query("DELETE FROM playlist_songs WHERE playlistId = :playlistId") suspend fun deleteSongsByPlaylist(playlistId: Long)
+    @Insert(onConflict = OnConflictStrategy.IGNORE) suspend fun insertSong(song: PlaylistSongEntity)
+    @Query("DELETE FROM playlist_songs WHERE playlistId = :playlistId AND songId = :songId") suspend fun deleteSong(playlistId: Long, songId: Long)
+    @Query("SELECT songId FROM playlist_songs WHERE playlistId = :playlistId ORDER BY addedAt ASC") fun observePlaylistSongIds(playlistId: Long): Flow<List<Long>>
+    @Query("UPDATE playlist_songs SET addedAt = :addedAt WHERE playlistId = :playlistId AND songId = :songId") suspend fun updateSongOrder(playlistId: Long, songId: Long, addedAt: Long)
+    @Query("UPDATE playlists SET createdAt = :createdAt WHERE id = :playlistId") suspend fun updatePlaylistOrder(playlistId: Long, createdAt: Long)
+    @Query("UPDATE playlists SET name = :name WHERE id = :playlistId") suspend fun updatePlaylistName(playlistId: Long, name: String)
 }
 
 @Dao

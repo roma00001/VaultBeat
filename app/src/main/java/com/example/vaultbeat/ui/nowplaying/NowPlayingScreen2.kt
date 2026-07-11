@@ -12,9 +12,17 @@ fun NowPlayingScreen2(
     viewModel: NowPlayingViewModel,
     songs: List<Song>,
     onSongSelected: (Int) -> Unit,
+    onPlayAlbum: (List<Song>, Int) -> Unit,
     onRefresh: () -> Unit,
     onClose: () -> Unit = {}
 ) {
     // Forward to the canonical implementation
-    NowPlayingScreen(viewModel = viewModel, songs = songs, onSongSelected = onSongSelected, onRefresh = onRefresh, onClose = onClose)
+    NowPlayingScreen(
+        viewModel = viewModel,
+        songs = songs,
+        onSongSelected = onSongSelected,
+        onPlayAlbum = onPlayAlbum,
+        onRefresh = onRefresh,
+        onClose = onClose
+    )
 }

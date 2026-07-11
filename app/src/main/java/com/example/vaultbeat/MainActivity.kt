@@ -71,6 +71,7 @@ private fun VaultBeatApp(viewModel: LibraryViewModel = hiltViewModel()) {
             viewModel = nowVm,
             songs = library.songs,
             onSongSelected = { index -> viewModel.player.playQueue(library.songs, index) },
+            onPlayAlbum = { queue, start -> viewModel.player.playQueue(queue, start) },
             onRefresh = viewModel::loadLibrary
         )
     } else {
