@@ -17,7 +17,9 @@ import javax.inject.Singleton
 object AppModule {
     @Provides @Singleton
     fun provideDatabase(@ApplicationContext context: Context): VaultBeatDatabase =
-        Room.databaseBuilder(context, VaultBeatDatabase::class.java, "vaultbeat.db").build()
+        Room.databaseBuilder(context, VaultBeatDatabase::class.java, "vaultbeat.db")
+            .fallbackToDestructiveMigration(true)
+            .build()
 
     @Provides fun providePlaylistDao(database: VaultBeatDatabase): PlaylistDao = database.playlistDao()
     @Provides fun provideLibraryStateDao(database: VaultBeatDatabase): LibraryStateDao = database.libraryStateDao()

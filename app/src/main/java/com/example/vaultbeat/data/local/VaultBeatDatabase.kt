@@ -14,7 +14,9 @@ import kotlinx.coroutines.flow.Flow
 data class PlaylistEntity(
     @PrimaryKey(autoGenerate = true) val id: Long = 0,
     val name: String,
-    val createdAt: Long = System.currentTimeMillis()
+    val createdAt: Long = System.currentTimeMillis(),
+    val customCoverSongId: Long? = null,
+    val sortOrder: String = "DATE_ADDED"
 )
 
 @Entity(tableName = "playlist_songs", primaryKeys = ["playlistId", "songId"])
@@ -41,6 +43,8 @@ interface PlaylistDao {
     @Query("UPDATE playlist_songs SET addedAt = :addedAt WHERE playlistId = :playlistId AND songId = :songId") suspend fun updateSongOrder(playlistId: Long, songId: Long, addedAt: Long)
     @Query("UPDATE playlists SET createdAt = :createdAt WHERE id = :playlistId") suspend fun updatePlaylistOrder(playlistId: Long, createdAt: Long)
     @Query("UPDATE playlists SET name = :name WHERE id = :playlistId") suspend fun updatePlaylistName(playlistId: Long, name: String)
+    @Query("UPDATE playlists SET customCoverSongId = :songId WHERE id = :playlistId") suspend fun updatePlaylistCover(playlistId: Long, songId: Long?)
+    @Query("UPDATE playlists SET sortOrder = :sortOrder WHERE id = :playlistId") suspend fun updatePlaylistSortOrder(playlistId: Long, sortOrder: String)
 }
 
 @Dao
@@ -54,7 +58,7 @@ interface LibraryStateDao {
 
 @Database(
     entities = [PlaylistEntity::class, PlaylistSongEntity::class, FavoriteEntity::class, HiddenSongEntity::class, PlayHistoryEntity::class],
-    version = 1,
+    version = 2,
     exportSchema = false
 )
 abstract class VaultBeatDatabase : RoomDatabase() {

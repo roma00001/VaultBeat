@@ -82,6 +82,14 @@ class NowPlayingViewModel @Inject constructor(
         viewModelScope.launch { playlistRepository.renamePlaylist(playlistId, name) }
     }
 
+    fun updatePlaylistCover(playlistId: Long, songId: Long?) {
+        viewModelScope.launch { playlistRepository.updatePlaylistCover(playlistId, songId) }
+    }
+
+    fun updatePlaylistSortOrder(playlistId: Long, sortOrder: String) {
+        viewModelScope.launch { playlistRepository.updatePlaylistSortOrder(playlistId, sortOrder) }
+    }
+
     fun observePlaylistSongIds(playlistId: Long) = playlistRepository.observePlaylistSongIds(playlistId)
 
     // Actions forwarded to PlayerConnection

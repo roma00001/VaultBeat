@@ -47,4 +47,12 @@ class PlaylistRepository @Inject constructor(
     suspend fun renamePlaylist(playlistId: Long, name: String) {
         playlistDao.updatePlaylistName(playlistId, name.trim())
     }
+
+    suspend fun updatePlaylistCover(playlistId: Long, songId: Long?) {
+        playlistDao.updatePlaylistCover(playlistId, songId)
+    }
+
+    suspend fun updatePlaylistSortOrder(playlistId: Long, sortOrder: String) {
+        playlistDao.updatePlaylistSortOrder(playlistId, sortOrder)
+    }
 }

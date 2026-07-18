@@ -37,17 +37,27 @@ class MediaStoreMusicDataSource @Inject constructor(
             while (cursor.moveToNext()) {
                 val id = cursor.getLong(idIndex)
                 val albumId = cursor.getLong(albumIdIndex)
-                songs += Song(
-                    id = id,
-                    title = cursor.getString(titleIndex).orEmpty().ifBlank { "Sin título" },
-                    artist = cursor.getString(artistIndex).orEmpty().takeUnless { it == "<unknown>" } ?: "Artista desconocido",
-                    album = cursor.getString(albumIndex).orEmpty().takeUnless { it == "<unknown>" } ?: "Álbum desconocido",
-                    durationMs = cursor.getLong(durationIndex),
-                    uri = ContentUris.withAppendedId(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, id),
-                    albumArtUri = ContentUris.withAppendedId(
-                        android.net.Uri.parse("content://media/external/audio/albumart"), albumId
+                    val localCover = java.io.File(context.filesDir, "covers/$id.jpg")
+                    val finalAlbumArtUri = if (localCover.exists()) {
+                        // Append a version/timestamp to bypass Coil's cache when the cover is updated
+                        android.net.Uri.fromFile(localCover).buildUpon()
+                            .appendQueryParameter("v", localCover.lastModified().toString())
+                            .build()
+                    } else {
+                        ContentUris.withAppendedId(
+                            android.net.Uri.parse("content://media/external/audio/albumart"), albumId
+                        )
+                    }
+                    
+                    songs += Song(
+                        id = id,
+                        title = cursor.getString(titleIndex).orEmpty().ifBlank { "Sin título" },
+                        artist = cursor.getString(artistIndex).orEmpty().takeUnless { it == "<unknown>" } ?: "Artista desconocido",
+                        album = cursor.getString(albumIndex).orEmpty().takeUnless { it == "<unknown>" } ?: "Álbum desconocido",
+                        durationMs = cursor.getLong(durationIndex),
+                        uri = ContentUris.withAppendedId(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, id),
+                        albumArtUri = finalAlbumArtUri
                     )
-                )
             }
         }
         return songs

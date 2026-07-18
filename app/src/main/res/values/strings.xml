@@ -1,3 +1,114 @@
 <resources>
     <string name="app_name">VaultBeat</string>
+
+    <!-- Permissions -->
+    <string name="permission_title">Your music, on your device</string>
+    <string name="permission_desc">VaultBeat needs permission to read your local audio library. No music is uploaded or downloaded.</string>
+    <string name="permission_button">Allow access to music</string>
+
+    <!-- Navigation / Menu -->
+    <string name="menu_vaultbeat">VAULTBEAT</string>
+    <string name="menu_music">MUSIC</string>
+    <string name="menu_playlists">PLAYLISTS</string>
+    <string name="menu_podcasts">PODCASTS</string>
+    <string name="menu_artists">ARTISTS</string>
+    <string name="menu_albums">ALBUMS</string>
+    <string name="menu_now_playing">NOW PLAYING</string>
+
+    <!-- Sections -->
+    <string name="section_back">← Back</string>
+    <string name="section_back_albums">← Albums</string>
+    <string name="section_back_playlists">← Playlists</string>
+    <string name="artist_info">%1$d albums · %2$d songs</string>
+    <string name="artist_songs_count">%1$d songs</string>
+    <string name="album_info">%1$d songs · %2$s</string>
+    <string name="play_artist">Play artist</string>
+    <string name="play_album">Play album</string>
+    <string name="no_podcasts">No long episodes found</string>
+    <string name="select_song">Select a song</string>
+
+    <!-- Search -->
+    <string name="search_placeholder">Search your music...</string>
+    <string name="download_all">Download all</string>
+    <string name="downloading_playlist">Downloading playlist... %1$d/%2$d</string>
+
+    <!-- Playlists -->
+    <string name="playlists_title">Playlists</string>
+    <string name="create_playlist">Create</string>
+    <string name="no_playlists">No playlists yet</string>
+    <string name="playlist_songs_count">%1$d songs</string>
+    <string name="playlist_reproduce">Play</string>
+    <string name="playlist_add">Add</string>
+    <string name="playlist_songs_label">Songs</string>
+
+    <!-- Dialogs -->
+    <string name="dialog_download_options">Download Options</string>
+    <string name="dialog_download_now">Download now</string>
+    <string name="dialog_cancel">Cancel</string>
+    <string name="dialog_only_music">Only in my music (None)</string>
+    <string name="dialog_batch_download_title">Download Playlist</string>
+    <string name="dialog_batch_download_desc">%1$d songs will be downloaded to your device.</string>
+    <string name="dialog_download_dest">Download destination</string>
+    <string name="dialog_new_playlist_prefix">New playlist: %1$s</string>
+    <string name="dialog_create_new_playlist">+ Create new playlist</string>
+    <string name="dialog_new_playlist_placeholder">New playlist name...</string>
+    <string name="dialog_create">Create</string>
+    <string name="dialog_new_playlist_title">New playlist</string>
+    <string name="dialog_new_playlist_desc">Give your new collection a name.</string>
+    <string name="dialog_new_playlist_hint">e.g. Summer Favorites</string>
+    <string name="dialog_rename_playlist">Rename playlist</string>
+    <string name="dialog_rename_confirm">Rename</string>
+    <string name="dialog_new_name_label">New name</string>
+    <string name="dialog_add_songs_title">Add songs</string>
+    <string name="dialog_search_library_placeholder">Search in your library...</string>
+    <string name="dialog_no_more_songs">No more songs in your library to add.</string>
+    <string name="dialog_done">Done</string>
+    <string name="dialog_choose_cover">Choose cover</string>
+    <string name="dialog_choose_cover_desc">Select a song from the playlist to use its image as cover.</string>
+    <string name="dialog_reset_cover">Reset to automatic</string>
+    <string name="dialog_sort_title">Sort songs</string>
+    <string name="dialog_close">Close</string>
+
+    <!-- Context Menu Actions -->
+    <string name="action_remove_playlist">Remove from this playlist</string>
+    <string name="action_move_playlist">Move to another playlist</string>
+    <string name="action_add_playlist">Add to playlist</string>
+    <string name="action_reload_cover">Reload Cover</string>
+    <string name="action_delete_device">Delete from device</string>
+    <string name="sort_date">Date added</string>
+    <string name="sort_name">Name (A-Z)</string>
+    <string name="sort_artist">Artist</string>
+    <string name="sort_duration">Duration</string>
+    <string name="sort_random">Random</string>
+
+    <!-- Reload Cover Dialog -->
+    <string name="dialog_reload_cover_title">Reload Cover Art</string>
+    <string name="dialog_reload_cover_desc">Do you want to replace the current cover with this one?</string>
+    <string name="dialog_reload_no_artwork">No artwork found for this song.</string>
+    <string name="dialog_reload_searching">Searching for artwork...</string>
+    <string name="dialog_replace">Replace</string>
+    <string name="action_reload_all">Reload All Covers</string>
+    <string name="dialog_reload_all_title">Reloading all covers…</string>
+    <string name="dialog_reload_all_desc">This may take a while depending on your library size.</string>
+    <string name="sort_recent">Recent</string>
+    <string name="playing_status">PLAYING</string>
+    <string name="play">Play</string>
+    <string name="pause">Pause</string>
+    <string name="previous">Previous</string>
+    <string name="next">Next</string>
+    <string name="library_title">Library</string>
+    <string name="library_local">LOCAL</string>
+    <string name="library_now">Now</string>
+    <string name="library_error_desc">We couldn\'t open your library.</string>
+    <string name="library_retry">Retry</string>
+    <string name="library_empty_desc">No local songs yet.</string>
+    <string name="library_refresh">Refresh library</string>
+    <string name="library_songs_count">%1$d songs on this device</string>
+    <string name="library_only_local_desc">VaultBeat only plays files already saved on your phone.</string>
+    <string name="mini_player_desc">Mini player: %1$s</string>
+    <string name="shuffle_on">Shuffle ✓</string>
+    <string name="shuffle">Shuffle</string>
+    <string name="rewind">−10 s</string>
+    <string name="forward">+10 s</string>
+    <string name="repeat">Repeat %1$d</string>
 </resources>

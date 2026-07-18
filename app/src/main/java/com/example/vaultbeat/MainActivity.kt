@@ -30,6 +30,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.core.content.ContextCompat
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -91,11 +92,11 @@ private fun PermissionScreen(onRequestPermission: () -> Unit) {
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
-        Text("Tu música, en tu dispositivo", style = MaterialTheme.typography.headlineMedium)
+        Text(stringResource(R.string.permission_title), style = MaterialTheme.typography.headlineMedium)
         Spacer(Modifier.height(12.dp))
-        Text("VaultBeat necesita permiso para leer tu biblioteca de audio local. No se sube ni se descarga música.", color = MaterialTheme.colorScheme.onSurfaceVariant)
+        Text(stringResource(R.string.permission_desc), color = MaterialTheme.colorScheme.onSurfaceVariant)
         Spacer(Modifier.height(24.dp))
-        Button(onClick = onRequestPermission) { Text("Permitir acceso a la música") }
+        Button(onClick = onRequestPermission) { Text(stringResource(R.string.permission_button)) }
     }
 }
 

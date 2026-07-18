@@ -10,6 +10,7 @@ import androidx.media3.session.MediaController
 import androidx.media3.session.SessionToken
 import com.example.vaultbeat.core.model.Song
 import dagger.hilt.android.qualifiers.ApplicationContext
+import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -31,6 +32,8 @@ class PlayerConnection @Inject constructor(@ApplicationContext private val conte
     private val _state = MutableStateFlow(PlayerUiState())
     val state: StateFlow<PlayerUiState> = _state.asStateFlow()
     private var controller: MediaController? = null
+    private val scope = CoroutineScope(Dispatchers.Main + SupervisorJob())
+    private var progressJob: Job? = null
 
     private val listener = object : Player.Listener {
         override fun onEvents(player: Player, events: Player.Events) = publish(player)
@@ -87,5 +90,20 @@ class PlayerConnection @Inject constructor(@ApplicationContext private val conte
             repeatMode = player.repeatMode,
             shuffleEnabled = player.shuffleModeEnabled
         )
+
+        // Manage progress polling
+        if (player.isPlaying) {
+            if (progressJob == null || progressJob?.isActive == false) {
+                progressJob = scope.launch {
+                    while (isActive && player.isPlaying) {
+                        _state.value = _state.value.copy(positionMs = player.currentPosition)
+                        delay(100)
+                    }
+                }
+            }
+        } else {
+            progressJob?.cancel()
+            progressJob = null
+        }
     }
 }

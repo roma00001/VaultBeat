@@ -37,6 +37,8 @@ import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
+import androidx.compose.ui.res.stringResource
+import com.example.vaultbeat.R
 import com.example.vaultbeat.core.model.Song
 import com.example.vaultbeat.player.PlayerUiState
 
@@ -62,24 +64,24 @@ fun LibraryScreen(
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
             Column {
-                Text("VAULTBEAT", style = MaterialTheme.typography.labelMedium, color = MaterialTheme.colorScheme.primary)
-                Text("Biblioteca", style = MaterialTheme.typography.headlineMedium)
+                Text(stringResource(R.string.menu_vaultbeat), style = MaterialTheme.typography.labelMedium, color = MaterialTheme.colorScheme.primary)
+                Text(stringResource(R.string.library_title), style = MaterialTheme.typography.headlineMedium)
             }
             Column(horizontalAlignment = Alignment.End) {
-                Text("LOCAL", style = MaterialTheme.typography.labelMedium, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                Text(stringResource(R.string.library_local), style = MaterialTheme.typography.labelMedium, color = MaterialTheme.colorScheme.onSurfaceVariant)
                 Spacer(modifier = Modifier.height(6.dp))
-                Button(onClick = onOpenNowPlaying) { Text("Ahora") }
+                Button(onClick = onOpenNowPlaying) { Text(stringResource(R.string.library_now)) }
             }
         }
         when {
             state.loading -> Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) { CircularProgressIndicator() }
-            state.error != null -> EmptyLibrary("No hemos podido abrir tu biblioteca.", "Reintentar", onRefresh)
-            state.songs.isEmpty() -> EmptyLibrary("No hay canciones locales todavía.", "Actualizar biblioteca", onRefresh)
+            state.error != null -> EmptyLibrary(stringResource(R.string.library_error_desc), stringResource(R.string.library_retry), onRefresh)
+            state.songs.isEmpty() -> EmptyLibrary(stringResource(R.string.library_empty_desc), stringResource(R.string.library_refresh), onRefresh)
             else -> {
                 LazyColumn(contentPadding = PaddingValues(bottom = 100.dp)) {
                     item {
                         Text(
-                            "${state.songs.size} canciones en este dispositivo",
+                            stringResource(R.string.library_songs_count, state.songs.size),
                             modifier = Modifier.padding(horizontal = 24.dp, vertical = 4.dp),
                             style = MaterialTheme.typography.bodyMedium,
                             color = MaterialTheme.colorScheme.onSurfaceVariant
@@ -108,7 +110,7 @@ private fun EmptyLibrary(message: String, action: String, onAction: () -> Unit) 
         Spacer(Modifier.height(24.dp))
         Text(message, style = MaterialTheme.typography.titleMedium)
         Spacer(Modifier.height(12.dp))
-        Text("VaultBeat solo reproduce archivos que ya están guardados en tu teléfono.", color = MaterialTheme.colorScheme.onSurfaceVariant)
+        Text(stringResource(R.string.library_only_local_desc), color = MaterialTheme.colorScheme.onSurfaceVariant)
         Spacer(Modifier.height(24.dp))
         Button(onClick = onAction) { Text(action) }
     }
@@ -128,7 +130,7 @@ private fun SongRow(song: Song, selected: Boolean, isPlaying: Boolean, onClick: 
             Text(song.title, maxLines = 1, overflow = TextOverflow.Ellipsis, style = MaterialTheme.typography.titleMedium, color = if (selected) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurface)
             Text(song.artist, maxLines = 1, overflow = TextOverflow.Ellipsis, style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.onSurfaceVariant)
         }
-        Text(if (selected && isPlaying) "SONANDO" else formatDuration(song.durationMs), style = MaterialTheme.typography.labelSmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
+        Text(if (selected && isPlaying) stringResource(R.string.playing_status) else formatDuration(song.durationMs), style = MaterialTheme.typography.labelSmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
     }
 }
 
@@ -145,7 +147,7 @@ private fun MiniPlayer(
     onRepeat: () -> Unit
 ) {
     Card(
-        modifier = Modifier.fillMaxWidth().padding(12.dp).semantics { contentDescription = "Minirreproductor: ${song.title}" },
+        modifier = Modifier.fillMaxWidth().padding(12.dp).semantics { contentDescription = "Mini player: ${song.title}" },
         colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant),
         shape = RoundedCornerShape(18.dp)
     ) {
@@ -153,15 +155,15 @@ private fun MiniPlayer(
             ArtworkPlaceholder(Modifier.size(42.dp))
             Spacer(Modifier.width(12.dp))
             Column(Modifier.weight(1f)) { Text(song.title, maxLines = 1); Text(song.artist, style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant) }
-            Button(onClick = onToggle) { Text(if (player.isPlaying) "Pausa" else "Reproducir") }
+            Button(onClick = onToggle) { Text(if (player.isPlaying) stringResource(R.string.pause) else stringResource(R.string.play)) }
         }
         Row(Modifier.fillMaxWidth().padding(8.dp), horizontalArrangement = Arrangement.SpaceEvenly) {
-            Button(onClick = onShuffle) { Text(if (player.shuffleEnabled) "Aleatorio ✓" else "Aleatorio") }
-            Button(onClick = onPrevious) { Text("Anterior") }
-            Button(onClick = onRewind) { Text("−10 s") }
-            Button(onClick = onForward) { Text("+10 s") }
-            Button(onClick = onNext) { Text("Siguiente") }
-            Button(onClick = onRepeat) { Text("Repetir ${player.repeatMode}") }
+            Button(onClick = onShuffle) { Text(if (player.shuffleEnabled) stringResource(R.string.shuffle_on) else stringResource(R.string.shuffle)) }
+            Button(onClick = onPrevious) { Text(stringResource(R.string.previous)) }
+            Button(onClick = onRewind) { Text(stringResource(R.string.rewind)) }
+            Button(onClick = onForward) { Text(stringResource(R.string.forward)) }
+            Button(onClick = onNext) { Text(stringResource(R.string.next)) }
+            Button(onClick = onRepeat) { Text(stringResource(R.string.repeat, player.repeatMode)) }
         }
     }
 }
