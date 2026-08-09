@@ -2,6 +2,7 @@
 
 <p align="center">
 <img height="40" src="screenshots/nuevo icono readme(1).png" width="40"/>
+<img height="40" src="screenshots/RomaniIcon.png" width="40"/>
   <br>
   <b>Your music, your rules. A modern, privacy-first local player for Android.</b>
   <br><br>
@@ -27,7 +28,7 @@
 
 ## 📱 Visual Showcase
 ![](screenshots/Screenshot1_VaultBeat.jpg)
-
+![](screenshots/Screenshot2_VaultBeat.jpg)
 ---
 
 ## 🚀 Getting Started
