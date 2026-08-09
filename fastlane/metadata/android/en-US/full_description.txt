@@ -1,0 +1,12 @@
+VaultBeat is a modern, privacy-focused music player for Android.
+
+Manage your local music library with ease, create custom playlists, and enjoy high-quality playback of your audio files. Built with Jetpack Compose, VaultBeat offers a sleek interface and powerful features without compromising your data privacy.
+
+Main Features:
+- Local library scanning and playback.
+- Artist and Album organization.
+- Custom Playlist creation and management.
+- Fast and intuitive search.
+- Clean and modern Material 3 design.
+
+Your music, your device, your way.
