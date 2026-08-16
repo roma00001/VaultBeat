@@ -1,3 +1,5 @@
+import com.android.build.api.variant.FilterConfiguration
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.compose)
@@ -8,11 +10,7 @@ plugins {
 
 android {
     namespace = "com.vaultbeat"
-    compileSdk {
-        version = release(36) {
-            minorApiLevel = 1
-        }
-    }
+    compileSdk = 36
 
     defaultConfig {
         applicationId = "com.vaultbeat"
@@ -52,6 +50,23 @@ android {
     packaging {
         jniLibs {
             useLegacyPackaging = true
+        }
+    }
+}
+
+androidComponents {
+    onVariants { variant ->
+        val mainVersionCode = 1 // Debemos mantenerlo sincronizado con defaultConfig
+        variant.outputs.forEach { output ->
+            val abi = output.filters.find { it.filterType == FilterConfiguration.FilterType.ABI }?.identifier
+            val abiCode = when (abi) {
+                "armeabi-v7a" -> 1
+                "arm64-v8a" -> 2
+                "x86" -> 3
+                "x86_64" -> 4
+                else -> 0
+            }
+            output.versionCode.set(mainVersionCode * 10 + abiCode)
         }
     }
 }
