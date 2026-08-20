@@ -10,13 +10,13 @@ plugins {
 
 android {
     namespace = "com.vaultbeat"
-    compileSdk = 36
+    compileSdk = 35
 
     defaultConfig {
         applicationId = "com.vaultbeat"
         minSdk = 29
-        targetSdk = 36
-        versionCode = 14
+        targetSdk = 35
+        versionCode = 1
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
@@ -56,7 +56,7 @@ android {
 
 androidComponents {
     onVariants { variant ->
-        val mainVersionCode = 1 // Debemos mantenerlo sincronizado con defaultConfig
+        val mainVersionCode = 1
         variant.outputs.forEach { output ->
             val abi = output.filters.find { it.filterType == FilterConfiguration.FilterType.ABI }?.identifier
             val abiCode = when (abi) {
